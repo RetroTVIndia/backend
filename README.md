@@ -21,7 +21,7 @@ This backend provides structured APIs for serving decade-based playlists, catego
 
 Follow these steps to get the backend server running on your machine:
 ```bash
-git clone [https://github.com/RetroTVIndia/backend.git](https://github.com/RetroTVIndia/backend.git)
+git clone https://github.com/RetroTVIndia/backend.git
 cd backend
 go mod download
 go run main.go
