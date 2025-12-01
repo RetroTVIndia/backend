@@ -15,10 +15,22 @@ This backend provides structured APIs for serving decade-based playlists, catego
 - **Language:** Go (Golang) 🐹  
 - **Framework:** net/http / chi / gin (based on project setup)  
 - **Data Storage:** JSON files  
-- **Deployment:** Lightweight server-friendly (Raspberry Pi compatible)  
+- **Deployment:** Lightweight server-friendly (Raspberry Pi compatible)
+
+## ▶️ Running Locally
+
+Follow these steps to get the backend server running on your machine:
+```bash
+git clone [https://github.com/RetroTVIndia/backend.git](https://github.com/RetroTVIndia/backend.git)
+cd backend
+go mod download
+go run main.go
+```
+> [!NOTE]
+> Your backend will start at: *http://localhost:8080*
+> (Ensure this port is free before running)
 
 ## 📡 API Endpoints
-Base URL: 👉 **http://localhost:8080**
 <details>
 <summary><code>GET</code> <b>/</b></summary>
 <br>
