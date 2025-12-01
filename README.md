@@ -83,7 +83,7 @@ We welcome contributions! Whether you want to add new shows, fix metadata, or im
 5. Open a Pull Request 🔃  
 
 ## 📬 Contact
-For inquiries or collaboration opportunities, reach out via GitHub Issues or email at **[your email here]**.  
+For inquiries or collaboration opportunities, reach out via GitHub Issues or email at **aglakshya06@gmail.com**.  
 
 ## ⚖️ License
 This project is licensed under the **MIT License**.  
