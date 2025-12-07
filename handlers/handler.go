@@ -8,13 +8,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Returns list of all category names
+// Returns list of all category names with total YouTube URL links count
 func CategoriesHandler(c *gin.Context) {
-	var categoryNames []string
-	for _, cat := range EraData.Categories {
-		categoryNames = append(categoryNames, cat.Name)
+	type CategoryInfo struct {
+		Name            string `json:"name"`
+		YoutubeURLLinks int    `json:"youtube_url_links"`
 	}
-	c.JSON(http.StatusOK, categoryNames)
+	var categories []CategoryInfo
+	for _, cat := range EraData.Categories {
+		totalLinks := 0
+		for _, video := range cat.Videos {
+			totalLinks += len(video.YoutubeURLs)
+		}
+		categories = append(categories, CategoryInfo{
+			Name:            cat.Name,
+			YoutubeURLLinks: totalLinks,
+		})
+	}
+	c.JSON(http.StatusOK, categories)
 }
 
 // Returns all shows in a specific category

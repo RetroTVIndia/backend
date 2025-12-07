@@ -205,6 +205,22 @@
           ]
         }
       ]
+    },
+    {
+      "name": "movies",
+      "videos": []
+    },
+    {
+      "name": "serials",
+      "videos": []
+    },
+    {
+      "name": "crime_shows",
+      "videos": []
+    },
+    {
+      "name": "documentaries",
+      "videos": []
     }
   ]
 }
