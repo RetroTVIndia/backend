@@ -38,21 +38,39 @@ func CategoryVideosHandler(c *gin.Context) {
 // Returns a random video from a category (or any if not provided)
 func RandomVideoHandler(c *gin.Context) {
 	rand.Seed(time.Now().UnixNano())
-	categoryName := c.Query("category")
-	var videos []Video
+	categoryNames := c.QueryArray("category")
+	type videoWithCategory struct {
+		Video        Video
+		CategoryName string
+	}
+	var videos []videoWithCategory
 
-	if categoryName != "" {
-		// pick videos from specific category
+	if len(categoryNames) > 0 {
+		// pick videos from specific categories
+		categorySet := make(map[string]struct{}, len(categoryNames))
+		for _, name := range categoryNames {
+			categorySet[name] = struct{}{}
+		}
+
 		for _, cat := range EraData.Categories {
-			if cat.Name == categoryName {
-				videos = cat.Videos
-				break
+			if _, ok := categorySet[cat.Name]; ok {
+				for _, video := range cat.Videos {
+					videos = append(videos, videoWithCategory{
+						Video:        video,
+						CategoryName: cat.Name,
+					})
+				}
 			}
 		}
 	} else {
 		// all videos from all categories
 		for _, cat := range EraData.Categories {
-			videos = append(videos, cat.Videos...)
+			for _, video := range cat.Videos {
+				videos = append(videos, videoWithCategory{
+					Video:        video,
+					CategoryName: cat.Name,
+				})
+			}
 		}
 	}
 
@@ -62,12 +80,22 @@ func RandomVideoHandler(c *gin.Context) {
 	}
 
 	// pick a random video
-	video := videos[rand.Intn(len(videos))]
+	selected := videos[rand.Intn(len(videos))]
+	video := selected.Video
+	categoryName := selected.CategoryName
 
 	// pick a random YouTube URL if multiple
 	if len(video.YoutubeURLs) > 0 {
 		video.YoutubeURLs = []string{video.YoutubeURLs[rand.Intn(len(video.YoutubeURLs))]}
 	}
 
-	c.JSON(http.StatusOK, video)
+	// Add category name to the response
+	response := gin.H{
+		"title":         video.Title,
+		"years":         video.Years,
+		"youtube_urls":  video.YoutubeURLs,
+		"category_name": categoryName,
+	}
+
+	c.JSON(http.StatusOK, response)
 }
